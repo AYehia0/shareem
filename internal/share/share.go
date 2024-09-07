@@ -9,6 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+var MaxNoteLength = 255
+
 // this defines the core entity of the application
 // which is the Share entity, defining the properties in which will be interacted with the database and the application
 type Share struct {
@@ -31,6 +33,10 @@ func NewShare(url, note string, ip net.IP) (Share, error) {
 
 	if !isValidUrl {
 		return Share{}, fmt.Errorf("invalid URL")
+	}
+
+	if len(note) > MaxNoteLength {
+		return Share{}, fmt.Errorf("note exceeds the maximum length of %d characters", MaxNoteLength)
 	}
 
 	return Share{
