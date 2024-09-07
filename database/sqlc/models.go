@@ -15,7 +15,6 @@ import (
 type Share struct {
 	ID        uuid.UUID      `json:"id"`
 	Url       string         `json:"url"`
-	Title     string         `json:"title"`
 	Note      sql.NullString `json:"note"`
 	Ip        pgtype.Inet    `json:"ip"`
 	CreatedAt time.Time      `json:"created_at"`

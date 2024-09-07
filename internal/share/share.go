@@ -12,7 +12,6 @@ import (
 // which is the Share entity, defining the properties in which will be interacted with the database and the application
 type Share struct {
 	ID        uuid.UUID `json:"id"`
-	Title     string    `json:"title"`
 	Note      string    `json:"note"`
 	URL       string    `json:"url"`
 	CreatedAt time.Time `json:"created_at"`
@@ -20,7 +19,7 @@ type Share struct {
 	IP        net.IP    `json:"ip"`
 }
 
-func NewShare(title, url, note string, ip net.IP) (Share, error) {
+func NewShare(url, note string, ip net.IP) (Share, error) {
 	id, err := uuid.NewUUID()
 	if err != nil {
 		return Share{}, fmt.Errorf("could not generate UUID: %w", err)
@@ -28,7 +27,6 @@ func NewShare(title, url, note string, ip net.IP) (Share, error) {
 
 	return Share{
 		ID:        id,
-		Title:     title,
 		Note:      note,
 		CreatedAt: time.Now(),
 		UpdateAt:  time.Now(),

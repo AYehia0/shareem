@@ -27,17 +27,16 @@ func (q *Queries) CountShares(ctx context.Context) (int64, error) {
 
 const createShare = `-- name: CreateShare :one
 INSERT INTO share (
-  id, url, title, note, ip, created_at, updated_at
+  id, url, note, ip, created_at, updated_at
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7
+  $1, $2, $3, $4, $5, $6
 )
-RETURNING id, url, title, note, ip, created_at, updated_at
+RETURNING id, url, note, ip, created_at, updated_at
 `
 
 type CreateShareParams struct {
 	ID        uuid.UUID      `json:"id"`
 	Url       string         `json:"url"`
-	Title     string         `json:"title"`
 	Note      sql.NullString `json:"note"`
 	Ip        pgtype.Inet    `json:"ip"`
 	CreatedAt time.Time      `json:"created_at"`
@@ -48,7 +47,6 @@ func (q *Queries) CreateShare(ctx context.Context, arg CreateShareParams) (Share
 	row := q.db.QueryRow(ctx, createShare,
 		arg.ID,
 		arg.Url,
-		arg.Title,
 		arg.Note,
 		arg.Ip,
 		arg.CreatedAt,
@@ -58,7 +56,6 @@ func (q *Queries) CreateShare(ctx context.Context, arg CreateShareParams) (Share
 	err := row.Scan(
 		&i.ID,
 		&i.Url,
-		&i.Title,
 		&i.Note,
 		&i.Ip,
 		&i.CreatedAt,
@@ -68,7 +65,7 @@ func (q *Queries) CreateShare(ctx context.Context, arg CreateShareParams) (Share
 }
 
 const listShares = `-- name: ListShares :many
-SELECT id, url, title, note, ip, created_at, updated_at FROM share ORDER BY created_at DESC
+SELECT id, url, note, ip, created_at, updated_at FROM share ORDER BY created_at DESC
 `
 
 func (q *Queries) ListShares(ctx context.Context) ([]Share, error) {
@@ -83,7 +80,6 @@ func (q *Queries) ListShares(ctx context.Context) ([]Share, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.Url,
-			&i.Title,
 			&i.Note,
 			&i.Ip,
 			&i.CreatedAt,

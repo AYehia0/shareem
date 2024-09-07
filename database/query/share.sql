@@ -1,8 +1,8 @@
 -- name: CreateShare :one
 INSERT INTO share (
-  id, url, title, note, ip, created_at, updated_at
+  id, url, note, ip, created_at, updated_at
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7
+  $1, $2, $3, $4, $5, $6
 )
 RETURNING *;
 

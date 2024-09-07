@@ -75,13 +75,6 @@ func (s *Server) Insert(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	title, ok := r.Form["title"]
-	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-	titleStr := strings.Join(title, "")
-
 	url, ok := r.Form["url"]
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
@@ -136,7 +129,7 @@ func (s *Server) Insert(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	share, err := share.NewShare(titleStr, urlStr, noteStr, ip)
+	share, err := share.NewShare(urlStr, noteStr, ip)
 	if err != nil {
 		s.logger.Error("could not create share", slog.Any("Error", err))
 		w.WriteHeader(http.StatusInternalServerError)
@@ -146,7 +139,6 @@ func (s *Server) Insert(w http.ResponseWriter, r *http.Request) {
 	dbShare := db.CreateShareParams{
 		ID:        share.ID,
 		Url:       share.URL,
-		Title:     share.Title,
 		Note:      dbNote,
 		CreatedAt: share.CreatedAt,
 		Ip:        dbIP,
