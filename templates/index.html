@@ -44,7 +44,6 @@
                     <table class="min-w-full divide-y divide-gray-700 table-auto">
                       <thead>
                         <tr>
-                          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Title</th>
                           <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">URL</th>
                           <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Note</th>
                           <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Timestamp</th>
@@ -53,7 +52,6 @@
                       <tbody class="divide-y divide-gray-800">
                         {{ range .Shares }}
                         <tr>
-                          <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-300 sm:pl-0">{{ .Title }}</td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-400 underline"><a href="{{ .Url }}" target="_blank">{{ .Url }}</a></td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-400 break-words">{{ if .Note.Valid }}{{ .Note.String }}{{ else }}No note{{ end }}</td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-400">{{ .CreatedAt.Format "02 Jan 06 15:04 MST" }}</td>
