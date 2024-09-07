@@ -3,6 +3,7 @@ package share
 import (
 	"fmt"
 	"net"
+	"shareem/internal/validation"
 	"time"
 
 	"github.com/google/uuid"
@@ -23,6 +24,13 @@ func NewShare(url, note string, ip net.IP) (Share, error) {
 	id, err := uuid.NewUUID()
 	if err != nil {
 		return Share{}, fmt.Errorf("could not generate UUID: %w", err)
+	}
+
+	// validate the url
+	isValidUrl := validation.IsValidURL(url)
+
+	if !isValidUrl {
+		return Share{}, fmt.Errorf("invalid URL")
 	}
 
 	return Share{
