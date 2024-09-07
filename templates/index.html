@@ -53,7 +53,7 @@
                         {{ range .Shares }}
                         <tr>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-400 underline"><a href="{{ .Url }}" target="_blank">{{ .Url }}</a></td>
-                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-400 break-words">{{ if .Note.Valid }}{{ .Note.String }}{{ else }}No note{{ end }}</td>
+                          <td class="px-3 py-4 text-sm text-gray-400 break-words">{{ if .Note.Valid }}{{ .Note.String }}{{ else }}No note{{ end }}</td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-400">{{ .CreatedAt.Format "02 Jan 06 15:04 MST" }}</td>
                         </tr>
                         {{ end }}
