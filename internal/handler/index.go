@@ -91,10 +91,6 @@ func (s *Server) Insert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	note, ok := r.Form["note"]
-	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
 	noteStr := strings.Join(note, "")
 
 	// Convert noteStr to sql.NullString
