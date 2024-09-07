@@ -128,7 +128,12 @@ func (s *Server) Insert(w http.ResponseWriter, r *http.Request) {
 	share, err := share.NewShare(urlStr, noteStr, ip)
 	if err != nil {
 		s.logger.Error("could not create share", slog.Any("Error", err))
-		w.WriteHeader(http.StatusInternalServerError)
+
+		// use the error page Template
+		w.WriteHeader(http.StatusBadRequest)
+		s.tmpl.ExecuteTemplate(w, "error.html", errorPage{
+			ErrorMsg: err.Error(),
+		})
 		return
 	}
 
