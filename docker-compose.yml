@@ -1,0 +1,48 @@
+services:
+  server:
+    build:
+        context: .
+        dockerfile: Dockerfile.dev
+    container_name: shares 
+    ports:
+      - 8080:8080
+    secrets:
+      - db-password
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=shares
+      - POSTGRES_PORT=5432
+      - POSTGRES_SSLMODE=disable
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - ./.air.toml:/src/.air.toml  # Ensure Air uses your config
+
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=shares
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    expose:
+      - 5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt
