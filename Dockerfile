@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.23.3
+ARG GO_VERSION=1.23.1
 FROM --platform=$BUILDPLATFORM golang:${GO_VERSION} AS build
 LABEL org.opencontainers.image.source=https://github.com/ayehia0/shareem
 WORKDIR /src
